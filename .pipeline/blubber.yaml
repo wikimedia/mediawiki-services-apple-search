@@ -1,0 +1,50 @@
+version: v4
+base: docker-registry.wikimedia.org/php7.2-fpm:latest
+
+lives:
+  in: /srv/app
+
+runs:
+  uid: 33
+  gid: 33
+  insecurely: false
+
+variants:
+  test:
+    copies: [local]
+    base: docker-registry.wikimedia.org/releng/composer-php72:latest
+    php:
+      requirements: [composer.json]
+      production: false
+    runs:
+      insecurely: true
+    entrypoint: [composer, test]
+
+  dev:
+    copies: [test]
+    builder:
+      requirements:
+        - from: local
+          source: index.php
+          destination: index.php
+        - from: local
+          source: robots.txt
+          destination: robots.txt
+    runs:
+      environment:
+        PHP__opcache__enable: "0"
+        FPM__pm__max_children: "4"
+        FPM__log_level: notice
+        PHP__display_errors: "stderr"
+        PHP__error_log: "/dev/stdout"
+        PHP__apc__shm_size: "150M"
+        PHP__error_reporting: "E_ALL"
+
+  prod:
+    copies:
+      - from: local
+        source: index.php
+        destination: index.php
+      - from: local
+        source: robots.txt
+        destination: robots.txt
