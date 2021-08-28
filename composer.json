@@ -1,0 +1,24 @@
+{
+	"type": "project",
+	"require-dev": {
+		"mediawiki/mediawiki-codesniffer": "37.0.0"
+	},
+	"authors": [
+		{
+			"name": "Brion Vibber",
+			"email": "brion@wikimedia.org"
+		},
+		{
+			"name": "Taavi Väänänen",
+			"email": "hi@taavi.wtf"
+		}
+	],
+	"scripts": {
+		"test": [
+			"phpcs -sp"
+		],
+		"fix": [
+			"phpcbf"
+		]
+	}
+}

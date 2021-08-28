@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset>
+	<rule ref="./vendor/mediawiki/mediawiki-codesniffer/MediaWiki" />
+
+	<!-- Standalone application, safe to ignore. -->
+	<rule ref="MediaWiki.Usage.SuperGlobalsUsage.SuperGlobals">
+		<severity>0</severity>
+	</rule>
+	<rule ref="MediaWiki.NamingConventions.PrefixedGlobalFunctions.allowedPrefix">
+		<severity>0</severity>
+	</rule>
+
+	<file>.</file>
+	<arg name="encoding" value="UTF-8"/>
+	<arg name="extensions" value="php"/>
+	<exclude-pattern>coverage</exclude-pattern>
+	<exclude-pattern>doc/html</exclude-pattern>
+	<exclude-pattern>vendor</exclude-pattern>
+</ruleset>
