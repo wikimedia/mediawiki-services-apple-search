@@ -6,6 +6,16 @@
 // Brion Vibber <brion@wikimedia.org>
 // 2007-12-28
 
+$requestUri = $_SERVER['REQUEST_URI'];
+
+if ( $requestUri === '/robots.txt' ) {
+	header( 'Content-Type: text/plain' );
+	die( file_get_contents( __DIR__ . '/robots.txt' ) );
+} elseif ( $requestUri === '/healthz' ) {
+	header( 'Content-Type: text/plain' );
+	die( 'OK' );
+}
+
 /**
  * @param string $msg
  * @param int $code
