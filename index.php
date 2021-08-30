@@ -18,12 +18,15 @@ function dieOut( $msg = '', $code = 500 ) {
 	if ( $code >= 500 ) {
 		$error = 'internal error';
 	}
+
+	$htmlMsg = htmlspecialchars( $msg );
+
 	http_response_code( $code );
-	die( "Wikimedia search service $error.\n\n$msg" );
+	die( "Wikimedia search service $error.\n\n$htmlMsg" );
 }
 
 error_reporting( E_ALL );
-ini_set( "display_errors", false );
+ini_set( "display_errors", "false" );
 
 $lang = 'en';
 $search = '';
@@ -84,6 +87,8 @@ if ( is_array( $suggest ) && count( $suggest ) >= 2
 		$results = $suggest[1];
 } else {
 	dieOut( "Unexpected result format." );
+	// for phan!
+	die();
 }
 
 header( "Cache-Control: public, max-age: 1200, s-maxage: 1200" );
@@ -91,13 +96,15 @@ print "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"DTD/xh
 	"<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"></head>\n" .
 	"<body>";
 
+$htmlLang = htmlspecialchars( $lang );
+
 if ( !$results ) {
 	$htmlSearch = htmlspecialchars( $search );
-	print "<p>No entries found for \"$lang:$htmlSearch\"</p>";
+	print "<p>No entries found for \"$htmlLang:$htmlSearch\"</p>";
 } else {
 	foreach ( $results as $result ) {
 		$htmlResult = htmlspecialchars( str_replace( ' ', '_', $result ) );
-		print "<div><span class=\"language\">$lang</span>:<span class=\"key\">$htmlResult</span></div>";
+		print "<div><span class=\"language\">$htmlLang</span>:<span class=\"key\">$htmlResult</span></div>";
 	}
 }
 
