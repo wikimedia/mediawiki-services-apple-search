@@ -38,6 +38,8 @@ function dieOut( $msg = '', $code = 500 ) {
 error_reporting( E_ALL );
 ini_set( "display_errors", "false" );
 
+$config = json_decode( file_get_contents( __DIR__ . '/config.json' ), true );
+
 $lang = 'en';
 $search = '';
 $limit = 20;
@@ -70,14 +72,23 @@ if ( isset( $_GET['limit'] ) ) {
 
 $urlSearch = urlencode( $search );
 
+$proxy = $config['proxy'] ?? null;
+$baseUrl = $proxy ?? "https://$lang.wikipedia.org";
+
 # OpenSearch JSON suggest API
-$url = "https://$lang.wikipedia.org/w/api.php?action=opensearch&search=$urlSearch&limit=$limit";
+$url = "$baseUrl/w/api.php?action=opensearch&search=$urlSearch&limit=$limit";
+
 $c = curl_init( $url );
 curl_setopt_array( $c, [
 	CURLOPT_RETURNTRANSFER => true,
 	CURLOPT_TIMEOUT_MS => 5000,
 	CURLOPT_USERAGENT => 'Wikimedia OpenSearch to Apple Dictionary bridge'
 ] );
+
+if ( $proxy ) {
+	curl_setopt( $c, CURLOPT_HTTPHEADER, [ "Host: $lang.wikipedia.org" ] );
+}
+
 $result = curl_exec( $c );
 $code = curl_getinfo( $c, CURLINFO_HTTP_CODE );
 if ( $result === false || !$code ) {
