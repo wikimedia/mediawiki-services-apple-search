@@ -19,6 +19,7 @@ if ( $requestUri === '/robots.txt' ) {
 /**
  * @param string $msg
  * @param int $code
+ * @return never
  */
 function dieOut( $msg = '', $code = 500 ) {
 	$error = 'bad request';
@@ -108,8 +109,6 @@ if ( is_array( $suggest ) && count( $suggest ) >= 2
 		$results = $suggest[1];
 } else {
 	dieOut( "Unexpected result format." );
-	// for phan!
-	die();
 }
 
 header( "Cache-Control: public, max-age: 1200, s-maxage: 1200" );
