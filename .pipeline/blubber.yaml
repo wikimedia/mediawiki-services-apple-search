@@ -32,7 +32,7 @@ variants:
           destination: robots.txt
         - from: local
           source: config.json
-          destionation: config.json
+          destination: config/config.json
     runs:
       environment:
         PHP__opcache__enable: "0"
@@ -51,4 +51,4 @@ variants:
       - from: local
         source: robots.txt
         destination: robots.txt
-        # production setups are expected to provide config.json
+        # production setups are expected to provide config/config.json

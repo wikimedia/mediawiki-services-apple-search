@@ -39,7 +39,7 @@ function dieOut( $msg = '', $code = 500 ) {
 error_reporting( E_ALL );
 ini_set( "display_errors", "false" );
 
-$config = json_decode( file_get_contents( __DIR__ . '/config.json' ), true );
+$config = json_decode( file_get_contents( __DIR__ . '/config/config.json' ), true );
 
 $lang = 'en';
 $search = '';
