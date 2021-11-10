@@ -1,5 +1,5 @@
 version: v4
-base: docker-registry.wikimedia.org/php7.2-fpm:latest
+base: docker-registry.wikimedia.org/php7.4-fpm:latest
 
 lives:
   in: /srv/app
@@ -12,7 +12,7 @@ runs:
 variants:
   test:
     copies: [local]
-    base: docker-registry.wikimedia.org/releng/composer-php72:latest
+    base: docker-registry.wikimedia.org/releng/composer-php74:latest
     php:
       requirements: [composer.json]
       production: false
