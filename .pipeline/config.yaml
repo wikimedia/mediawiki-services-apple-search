@@ -11,3 +11,5 @@ pipelines:
         publish:
           image:
             tags: [production]
+        promote:
+          - chart: apple-search
